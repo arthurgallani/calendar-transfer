@@ -1,6 +1,8 @@
 package com.cvd.calendartransfer.domain.transaction;
 
 import com.cvd.calendartransfer.domain.BaseFinancialFactory;
+import com.cvd.calendartransfer.domain.Value;
+import com.cvd.calendartransfer.domain.ValueType;
 import com.cvd.calendartransfer.domain.transaction.tax.FinancialTax;
 import com.cvd.calendartransfer.domain.transaction.transfer.RequestTransactionTransfer;
 import com.cvd.calendartransfer.domain.transaction.transfer.Transfer;
@@ -15,6 +17,8 @@ public class FinancialTransactionFactory extends BaseFinancialFactory {
 	public FinancialTransaction create(final RequestTransaction request,final FinancialTax tax) {
 	
 		if (request instanceof RequestTransactionTransfer requestTransfer) {
+			var taxApplicated = tax.configTax(requestTransfer.getRequestValue());
+			var sumValue = requestTransfer.getRequestValue().getNumber() + taxApplicated.getNumber();
 			return TransferComplete.builder()
 					.transfer(Transfer.builder()
 							.accountFrom(requestTransfer.getRequestAccountFrom())
@@ -22,8 +26,15 @@ public class FinancialTransactionFactory extends BaseFinancialFactory {
 							.dateSchedule(requestTransfer.getCurrentDate())
 							.dateExecution(requestTransfer.getExecutionDate())
 							.value(requestTransfer.getRequestValue())
+							.sumValue(Value.builder()
+									.number(sumValue)
+									.type(ValueType.getByValue(sumValue))
+									.build())
+							.type(requestTransfer.getType())
+							.tax(taxApplicated)
 							.build())
-					.tax(tax.configTax(requestTransfer.getRequestValue()))
+					.tax(taxApplicated)
+					
 					.build();
 	    }
 		else if (request instanceof RequestTransactionWithdraw requestWithdraw) {

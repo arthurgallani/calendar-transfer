@@ -17,10 +17,11 @@ import lombok.NoArgsConstructor;
 @Data
 public class Transfer extends TransferTransaction {
 
-	private long id;
+	private Integer id;
 	private Account accountFrom;
 	private Account accountTo;
 	private Value value;
+	private Value sumValue;
 	private Date dateExecution;
 	private Date dateSchedule;
 	

@@ -11,10 +11,14 @@ import javax.persistence.Id;
 
 import org.springframework.lang.Nullable;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity(name = "tb_transaction")
 public class TransactionEntity {
@@ -37,6 +41,9 @@ public class TransactionEntity {
 	
 	@Column(name = "type_value")
 	private String typeValue;
+	
+	@Column(name = "value_tax")
+	private Double valueTax;
 
 	@Column(name = "type_transaction")
 	private String typeTransaction;

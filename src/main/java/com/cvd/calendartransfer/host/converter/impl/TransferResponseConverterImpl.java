@@ -15,12 +15,18 @@ public class TransferResponseConverterImpl implements TransferResponseConverter 
 	public TransferResponse convert(final FinancialTransaction transaction) {
 		var transfer = transaction.getTransfer();
 		return TransferResponse.builder()
-				.accountTo(transfer.getAccountFrom().getNrAccount())
+				.accountFrom(transfer.getAccountFrom().getNrAccount())
 				.accountTo(transfer.getAccountTo().getNrAccount())
 				.dateTransfer(transfer.getDateExecution())
 				.dateSchedule(transfer.getDateSchedule())
 				.value(transfer.getValue().getType().getValueCalc(transfer.getValue().getNumber()))
+				.valueType(transfer.getValue().getType().getSimbol())
 				.id(transfer.getId())
+				.transactionType(transfer.getRequestTransaction().getType().getDesc())
+				.sumValue(transfer.getSumValue().getNumber())
+				.valueTax(transfer.getTax().getNumber())
+				.id(transfer.getId())
+				.balance(0.0)
 				.build();
 	}
 	

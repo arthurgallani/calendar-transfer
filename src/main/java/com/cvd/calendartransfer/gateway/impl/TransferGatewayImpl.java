@@ -29,5 +29,10 @@ public class TransferGatewayImpl implements TransferGateway {
 	public List<FinancialTransaction> getAll() {
 		return transferConverter.convert(transferRepository.findAll());
 	}
+
+	@Override
+	public FinancialTransaction get(Integer idTransaction) {
+		return transferConverter.convert(transferRepository.findById(idTransaction).get());
+	}
 	
 }

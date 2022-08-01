@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class TransferRequest {
 
-	private Long id;
+	private Integer id;
 	
 	@NotNull(message = "Origin account is required.")
 	private Integer accountFrom;

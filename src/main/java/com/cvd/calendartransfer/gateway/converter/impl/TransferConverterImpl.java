@@ -29,6 +29,8 @@ public class TransferConverterImpl implements TransferConverter {
 				.value(transfer.getValue().getType().getValueCalc(transfer.getValue().getNumber()))
 				.typeValue(transfer.getValue().getType().name())
 				.typeTransaction(transfer.getType().name())
+				.valueTax(transfer.getTax().getNumber())
+				.idTransaction(transfer.getId())
 				.build();
 	}
 
@@ -36,6 +38,7 @@ public class TransferConverterImpl implements TransferConverter {
 	public FinancialTransaction convert(final TransactionEntity transferEntity) {
 		return TransferComplete.builder() 
 				.transfer( Transfer.builder()
+						.id(transferEntity.getIdTransaction())
 						.accountFrom(Account.builder().nrAccount(transferEntity.getAccountFrom()).build())
 						.accountTo(Account.builder().nrAccount(transferEntity.getAccountTo()).build())
 						.dateExecution(transferEntity.getExecutionDate())
@@ -44,6 +47,14 @@ public class TransferConverterImpl implements TransferConverter {
 						.value(Value.builder()
 								.number(transferEntity.getValue())
 								.type(ValueType.valueOf(transferEntity.getTypeValue()))
+								.build())
+						.tax(Value.builder()
+								.number(transferEntity.getValueTax())
+								.type(ValueType.getByValue(transferEntity.getValueTax()))
+								.build())
+						.sumValue(Value.builder()
+								.number(transferEntity.getValue() + transferEntity.getValueTax())
+								.type(ValueType.getByValue(transferEntity.getValue() + transferEntity.getValueTax()))
 								.build())
 						.build())
 				.tax(Value.builder()

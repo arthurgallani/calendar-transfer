@@ -8,5 +8,6 @@ public interface TransferGateway {
 	
 	public FinancialTransaction create(final FinancialTransaction transfer);
 	public List<FinancialTransaction> getAll();
+	public FinancialTransaction get(final Integer idTransaction);
 
 }
