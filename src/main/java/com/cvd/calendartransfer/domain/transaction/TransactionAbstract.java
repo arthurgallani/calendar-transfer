@@ -14,7 +14,6 @@ public abstract class TransactionAbstract implements Transaction {
 	
 	public abstract TransactionTax getTaxRules();
 	public abstract RequestTransaction getRequestTransaction();
-
 	public abstract Account getAccountFrom();
 	public abstract Account getAccountTo();
 	public abstract Value getValue();

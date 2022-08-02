@@ -16,8 +16,9 @@ public class UntilTenDaysDateSchedulingTransfer extends TransactionTax {
 		/*
 		 * Transfers after current/scheduling date 
 		 * Transfers until 10 days from the current/scheduling date
-		 * */	
-		return (getDaysDifference() > 0 || getDaysDifference() <= DAYS_MAX_TRANSFER);
+		 * */
+		var daysDifference = getDaysDifference();
+		return (daysDifference > 0 && daysDifference <= DAYS_MAX_TRANSFER);
 	}
 
 	@Override
@@ -26,7 +27,7 @@ public class UntilTenDaysDateSchedulingTransfer extends TransactionTax {
 		 * Tax of $12 multiplied by:
 		 * the number of days from the current/scheduling date to the transfer date
 		 */
-		return (getDaysDifference() * FIX_TAX_TRANSFER) + value.getNumber();
+		return value.getValueCalc() + (getDaysDifference() * FIX_TAX_TRANSFER);
 	}
 		
 

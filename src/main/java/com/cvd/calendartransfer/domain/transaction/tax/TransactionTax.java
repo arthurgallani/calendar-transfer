@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.Optional;
 
 import com.cvd.calendartransfer.domain.Value;
 
@@ -13,10 +14,7 @@ import lombok.Data;
 public abstract class TransactionTax implements FinancialTax {
 	
 	public TransactionTax(final FinancialTax nextTaxRule) {
-		if (null != nextTaxRule) {
-			nextTaxRule.setInfoCalcTransactionTax(this.infoCalcTransactionTax);
-			this.nextTaxRule = nextTaxRule;
-		}
+		this.nextTaxRule = nextTaxRule;
 	}
 	
 	private final String FORMAT_DATE = "yyyy-MM-dd";
@@ -39,13 +37,16 @@ public abstract class TransactionTax implements FinancialTax {
 	}
 
 	@Override
-	public Value configTax(final Value initValue) {
-		if (this.isTaxApplicable()) return nextVerify(this.applyValueTax(initValue));
-		return initValue;
+	public Value configTax(final Value value) {
+		return configNextTaxRule( this.isTaxApplicable() ? this.applyValueTax(value) : value);
 	}
 	
-	public Value nextVerify(final Value value) {
-		return null != nextTaxRule ? nextTaxRule.configTax(value) : value;
+	public Value configNextTaxRule(final Value value) {
+		return hasNextTaxRule() ? nextTaxRule.configTax(value) : value;
+	}
+	
+	public boolean hasNextTaxRule() {
+		return null != nextTaxRule;
 	}
 
 	@Override
@@ -70,6 +71,12 @@ public abstract class TransactionTax implements FinancialTax {
 	
 	public Value getValueTransaction() {
 		return this.infoCalcTransactionTax.getRequestValue();
+	}
+	
+	public void setInfoCalcTransactionTax(final InfoCalcTransactionTax infoCalcTransactionTax) {
+		this.infoCalcTransactionTax = infoCalcTransactionTax;
+		if (null != this.nextTaxRule)
+			this.nextTaxRule.setInfoCalcTransactionTax(infoCalcTransactionTax);
 	}
 
 }

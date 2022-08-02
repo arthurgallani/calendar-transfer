@@ -18,15 +18,16 @@ public class SameDayTransferTax extends TransactionTax  {
 	}
 
 	@Override
-	public double getValueCalc(Value value) {
+	public double getValueCalc(final Value value) {
+		var originValue = getInfoCalcTransactionTax().getRequestValue();
 		/* Add a $3 tax */
-		var fixTaxApply = value.getNumber() + FIX_TAX;
+		var fixTaxApply = FIX_TAX;
 			
 		/* Plus 3% of the amount to be transferred */
-		var percentTaxValueTransferApply = value.getNumber() * PERCENT_TAX_VALUE_TRANSFER;
+		var percentTaxValueTransferApply = originValue.getNumber() * PERCENT_TAX_VALUE_TRANSFER;
 			
 		/* Value sum */
-		return fixTaxApply + percentTaxValueTransferApply;
+		return value.getValueCalc() + fixTaxApply + percentTaxValueTransferApply;
 	}
 	
 }

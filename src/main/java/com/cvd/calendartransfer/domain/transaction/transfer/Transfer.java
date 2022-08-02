@@ -23,12 +23,12 @@ public class Transfer extends TransferTransaction {
 	private Value value;
 	private Value sumValue;
 	private Date dateExecution;
-	private Date dateSchedule;
+	private Date dateSchedule;	
+	private Value tax;
 	
 	@Builder.Default
 	private final TransactionType type = TransactionType.TRANSFER;
-	
-	private Value tax;
+
 	
 	
 }

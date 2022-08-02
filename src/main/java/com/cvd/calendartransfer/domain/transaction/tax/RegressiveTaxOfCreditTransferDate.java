@@ -21,7 +21,7 @@ public class RegressiveTaxOfCreditTransferDate extends TransactionTax {
 
 	@Override
 	public double getValueCalc(Value value) {
-		return value.getNumber();
+		return value.getValueCalc();
 	}
 
 }

@@ -30,7 +30,8 @@ public abstract class RangeDaysTransactionTax extends TransactionTax {
 
 	@Override
 	public double getValueCalc(Value value) {
-		return value.getNumber() * getValuePercentTax();
+		return value.getValueCalc() + 
+				(getInfoCalcTransactionTax().getRequestValue().getNumber() * getValuePercentTax());
 	}
 
 	

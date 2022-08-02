@@ -17,7 +17,7 @@ public class FinancialTransactionFactory extends BaseFinancialFactory {
 	public FinancialTransaction create(final RequestTransaction request,final FinancialTax tax) {
 	
 		if (request instanceof RequestTransactionTransfer requestTransfer) {
-			var taxApplicated = tax.configTax(requestTransfer.getRequestValue());
+			var taxApplicated = tax.configTax(Value.ZERO);
 			var sumValue = requestTransfer.getRequestValue().getNumber() + taxApplicated.getNumber();
 			return TransferComplete.builder()
 					.transfer(Transfer.builder()
