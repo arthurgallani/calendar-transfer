@@ -3,6 +3,7 @@ package com.cvd.calendartransfer.gateway.impl;
 import java.util.List;
 
 import com.cvd.calendartransfer.domain.transaction.FinancialTransaction;
+import com.cvd.calendartransfer.exception.NotFoundException;
 import com.cvd.calendartransfer.gateway.TransferGateway;
 import com.cvd.calendartransfer.gateway.converter.TransferConverter;
 import com.cvd.calendartransfer.gateway.database.repository.TransferRepository;
@@ -32,7 +33,16 @@ public class TransferGatewayImpl implements TransferGateway {
 
 	@Override
 	public FinancialTransaction get(Integer idTransaction) {
-		return transferConverter.convert(transferRepository.findById(idTransaction).get());
+		
+		var transactionEntity = transferRepository
+				.findById(idTransaction)
+				.orElse(null);
+        
+		if (null == transactionEntity)
+			throw new NotFoundException("Transaction not found by id: " + idTransaction );
+		
+		return transferConverter.convert(transactionEntity);
+		
 	}
 	
 }
